@@ -55,17 +55,16 @@ def get_barcode(code):
         return jsonify(data=[])
 
 @app.route("/product-contains/<string:code>")
-def get_barcode(code):
+def get_contains(code):
     print("Getting containing" + code)
     try:
         product = code.split("-")[0]
         name = code.split("-")[1]
         res = RequestOpenFood.is_containing_ingredient(product, ingredient)
-
         return jsonify(data=res)
     except QuerryError as err:
         return jsonify(data=[])
- 
+
 if __name__ == "__main__":
     app.run(host='0.0.0.0')
 
