@@ -35,8 +35,9 @@ def getingredients(code):
     except QuerryError as err:
         return jsonify(data=[])
 
-@app.route("/getimage")
+@app.route("/getimage/<string:code>")
 def get_image():
+    print("Getting image")
     fig=plt.figure()
     ax=fig.add_subplot(111)
     ax.plot([0,1],[1,2])
