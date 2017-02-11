@@ -2,6 +2,9 @@ from flask import Flask, jsonify
 from RequestOpenFood import RequestOpenFood
 from RequestOpenFood import QuerryError
 from RequestOpenFood import ProductBuilder
+import matplotlib.pyplot as plt
+from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
+import io
 
 app = Flask(__name__)
 
@@ -31,6 +34,17 @@ def getingredients(code):
         return jsonify(data=res)
     except QuerryError as err:
         return jsonify(data=[])
+
+@app.route("/getimage/")
+def get_image():
+    fig=plt.figure()
+    ax=fig.add_subplot(111)
+    ax.plot([0,1],[1,2])
+
+    canvas=FigureCanvas(fig)
+    png_output = io.BytesIO()
+    canvas.print_png(png_output)
+    return png_output.getvalue()
 
 @app.route("/getbarcode/<string:code>")
 def get_barcode(code):
