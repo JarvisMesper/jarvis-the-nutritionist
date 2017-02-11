@@ -174,7 +174,7 @@ class ProductBuilder:
         res_dict['barcode'] = self.barcode
         res_dict['images'] = self.images
         res_dict['nutrients'] = self.nutrients
-        return json.dumps(res_dict)
+        return res_dict
     
     @staticmethod
     def clean_data(res_tab):
