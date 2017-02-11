@@ -41,9 +41,9 @@ def comparaison(code):
     # 7610235000329, 7613033774188
     try:
         tags = code.split('-')
-        res = RequestOpenFood.get_product(barcode=tags[0])
+        res = RequestOpenFood.get_product(barcode=int(tags[0]))
         res = ProductBuilder.clean_data(res)
-        res2 = RequestOpenFood.get_product(barcode=tags[1])
+        res2 = RequestOpenFood.get_product(barcode=int(tags[0]))
         res2 = ProductBuilder.clean_data(res2)
         return RequestOpenFood.compare_data(res[0], res2[0])
     except QuerryError as err:
