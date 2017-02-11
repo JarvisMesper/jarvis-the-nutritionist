@@ -2,6 +2,7 @@ from flask import Flask, jsonify
 from RequestOpenFood import RequestOpenFood
 from RequestOpenFood import QuerryError
 from RequestOpenFood import ProductBuilder
+import matplotlib
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
 import io
@@ -38,6 +39,8 @@ def getingredients(code):
 @app.route("/getimage/<string:code>")
 def get_image(code):
     print("Getting image")
+    # Force matplotlib to not use any Xwindows backend.
+    matplotlib.use('Agg')
     fig=plt.figure()
     ax=fig.add_subplot(111)
     ax.plot([0,1],[1,2])
