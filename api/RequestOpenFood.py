@@ -1,4 +1,8 @@
 import requests 
+import numpy as np
+import matplotlib.pyplot as plt
+from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
+import io
 
 class QuerryError(Exception):
         
@@ -16,7 +20,11 @@ class RequestOpenFood:
     BASE_URL='https://www.openfood.ch/api/v2'
     API_KEY='4c230279d7ab2cf2e1692497f44edc49'
     URL_SEARCH = BASE_URL + '/products/_search'
+    URL_NUTRIENT = BASE_URL + '/nutrients'
     QUERY_SUCCEED = 200
+    
+    margin_size = 1.3
+    text_margin = 0.35
     
     HEADERS = {
         'Authorization': "Token token={}".format(API_KEY),
@@ -103,6 +111,40 @@ class RequestOpenFood:
         
         return res
     
+    @staticmethod
+    def get_nutrient(name):
+        """
+        Look for specific product according to barcode. Return only the product
+        """
+        # Rend request
+        res = requests.get(RequestOpenFood.URL_NUTRIENT, params={}, headers=RequestOpenFood.HEADERS)
+        
+        # Check ir request succeed
+        if (res.status_code != RequestOpenFood.QUERY_SUCCEED):
+            raise QuerryError(QuerryError.BAD_REQUEST, 'Bad request')
+        res = res.json()
+        
+        # Check if arguments failed
+        try:
+            res['error']
+            raise QuerryError(QuerryError.BAD_KEY, 'Bad key')
+        except KeyError:
+            pass
+        
+        name_res = ['' for x in name]
+        
+        for nutrient in res['data']:
+            name_nut = nutrient['attributes']['name-translations']['fr']
+            unit_nut = nutrient['attributes']['unit']
+            
+            try:
+                pos = [x for x in name.keys()].index(name_nut)
+                name_res[pos] = unit_nut
+            except ValueError:
+                pass
+        
+        return name_res
+    
     "******************************************* Extract product info *******************************************"
     @staticmethod
     def is_containing_ingredient(product=None, name=''):
@@ -128,6 +170,72 @@ class RequestOpenFood:
             pass
          
         return False
+    
+    
+    def compare_data(p1, p2):
+        dict_comp = {}
+        dict_comp_tag = {}
+        # Add nutirent for both ids
+        for key in p1['nutrients']:
+            val = key['per_hundred']
+            try:
+                dict_comp[key['name']][0] = float(val)
+                dict_comp_tag[key['name']][0] = val
+            except:
+                dict_comp[key['name']] = [float(val), 0]
+                dict_comp_tag[key['name']] = [val, '-']
+
+        for key in p2['nutrients']:
+            val = key['per_hundred']
+            try:
+                dict_comp[key['name']][1] = float(val)
+                dict_comp_tag[key['name']][1] = val
+            except:
+                dict_comp[key['name']] = [0, float(val)]
+                dict_comp_tag[key['name']] = ['-', val]
+
+        # Plot according to dictionary
+        val_p1 = []; val_p2 = []
+        val_tag = []
+        for key in dict_comp.keys():
+            val_p1.append(dict_comp[key][0])
+            val_tag.append(dict_comp_tag[key][0])
+        for key in dict_comp.keys():
+            val_p2.append(dict_comp[key][1])
+            val_tag.append(dict_comp_tag[key][1])
+        val_p1 = np.array(val_p1)/np.max([val_p1, val_p2])
+        val_p2 = np.array(val_p2)/np.max([val_p1, val_p2])
+
+        fig=plt.figure()
+        ax=fig.add_subplot(111)
+        ax.barh(range(len(val_p1)), val_p1, align='center', color='green')
+        ax.barh(range(len(val_p2)),-val_p2, align='center', color='blue')
+        plt.xlim([-RequestOpenFood.margin_size, RequestOpenFood.margin_size])
+        plt.axis('off')
+
+        unit_data = RequestOpenFood.get_nutrient(dict_comp_tag)
+        print(unit_data)
+
+        rects = ax.patches
+        for i, (rect, label) in enumerate(zip(rects, val_tag)):
+            height = rect.get_height()
+            label_tag = label
+            if label is not '-':
+                label_tag = label +' ' + unit_data[i%len(val_p1)]
+            if i < len(val_p1):
+                ax.text(rect.get_x() + rect.get_width() + 0.15, rect.get_y() + height/2, 
+                        label_tag , ha='left', va='center', size='large')
+            else:
+                ax.text(rect.get_x() - 0.15 , rect.get_y() + height/2, 
+                        label_tag, ha='right', va='center', size='large')
+        for i, (rect, label) in enumerate(zip(rects, dict_comp_tag.keys())):
+            height = rect.get_height()
+            ax.text(RequestOpenFood.margin_size+RequestOpenFood.text_margin , rect.get_y() + height/2, label, ha='left', va='center', size='large')
+
+        canvas=FigureCanvas(fig)
+        png_output = io.BytesIO()
+        canvas.print_png(png_output)
+        return png_output.getvalue()
     
     "******************************************* Debug propuse *******************************************"
     
