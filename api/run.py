@@ -45,7 +45,7 @@ def comparaison(code):
         res = ProductBuilder.clean_data(res)
         res2 = RequestOpenFood.get_product(barcode=int(tags[0]))
         res2 = ProductBuilder.clean_data(res2)
-        return RequestOpenFood.compare_data(res[0], res2[0])
+        return RequestOpenFood.compare_data(res[0], res2[1])
     except QuerryError as err:
         return jsonify(data=[])
 
