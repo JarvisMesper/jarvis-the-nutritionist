@@ -242,15 +242,15 @@ class RequestOpenFood:
         plt.legend([l, l2], [p1_name, p2_name], loc='upper center', bbox_to_anchor=(0.5, -0.05),
         fancybox=True, shadow=True, ncol=5)
         
-        plt.savefig('foo.png', bbox_inches='tight')
-        buf = io.BytesIO(open('foo.png','rb').read())
+        # plt.savefig('foo.png', bbox_inches='tight')
+        # buf = io.BytesIO(open('foo.png','rb').read())
         
-        #canvas=FigureCanvas(fig)
-        #png_output = io.BytesIO()
-        #canvas.print_png(png_output)
-        #return png_output.getvalue()
+        canvas=FigureCanvas(fig)
+        png_output = io.BytesIO()
+        canvas.print_png(png_output)
+        return png_output.getvalue()
         
-        return buf.getvalue()
+        #return buf.getvalue()
     
     "******************************************* Debug propuse *******************************************"
     
