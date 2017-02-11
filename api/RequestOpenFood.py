@@ -168,6 +168,18 @@ class RequestOpenFood:
                     return True
         except KeyError:
             pass
+        
+        try:
+            in_nutrients = product['_source']['nutrients']
+            for in_nutrient in in_nutrients:
+                try:
+                    nut_fr = in_nutrient['name_fr']
+                    if name in nut_fr:
+                        return True
+                except KeyError:
+                    pass
+        except KeyError:
+            pass
          
         return False
     
