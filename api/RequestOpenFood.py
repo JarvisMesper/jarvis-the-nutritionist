@@ -155,7 +155,7 @@ class RequestOpenFood:
             in_images = product['_source']['images']
             for in_image in in_images:
                 text_scan = in_image['text']
-                if name.lower() in text_scan.lower():
+                if text_scan is not None and name.lower() in text_scan.lower():
                     return True
         except KeyError:
             pass
