@@ -208,8 +208,8 @@ class RequestOpenFood:
 
         fig=plt.figure()
         ax=fig.add_subplot(111)
-        l = ax.barh(range(len(val_p1)), val_p1, align='center', color='green')
-        l2 = ax.barh(range(len(val_p2)),-val_p2, align='center', color='blue')
+        l = ax.barh(range(len(val_p1)), -val_p1, align='center', color='red')
+        l2 = ax.barh(range(len(val_p2)), val_p2, align='center', color='blue')
         plt.xlim([-RequestOpenFood.margin_size, RequestOpenFood.margin_size])
         plt.axis('off')
 
@@ -222,7 +222,7 @@ class RequestOpenFood:
             label_tag = label
             if label is not '-':
                 label_tag = label +' ' + unit_data[i%len(val_p1)]
-            if i < len(val_p1):
+            if not (i < len(val_p1)):
                 ax.text(rect.get_x() + rect.get_width() + 0.15, rect.get_y() + height/2, 
                         label_tag , ha='left', va='center', size='large')
             else:
