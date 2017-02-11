@@ -3,6 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
 import io
+from PIL import Image
 
 class QuerryError(Exception):
         
@@ -208,13 +209,13 @@ class RequestOpenFood:
 
         fig=plt.figure()
         ax=fig.add_subplot(111)
-        ax.barh(range(len(val_p1)), val_p1, align='center', color='green')
-        ax.barh(range(len(val_p2)),-val_p2, align='center', color='blue')
+        l = ax.barh(range(len(val_p1)), val_p1, align='center', color='green')
+        l2 = ax.barh(range(len(val_p2)),-val_p2, align='center', color='blue')
         plt.xlim([-RequestOpenFood.margin_size, RequestOpenFood.margin_size])
         plt.axis('off')
 
         unit_data = RequestOpenFood.get_nutrient(dict_comp_tag)
-        print(unit_data)
+        # print(unit_data)
 
         rects = ax.patches
         for i, (rect, label) in enumerate(zip(rects, val_tag)):
@@ -232,10 +233,27 @@ class RequestOpenFood:
             height = rect.get_height()
             ax.text(RequestOpenFood.margin_size+RequestOpenFood.text_margin , rect.get_y() + height/2, label, ha='left', va='center', size='large')
 
-        canvas=FigureCanvas(fig)
-        png_output = io.BytesIO()
-        canvas.print_png(png_output)
-        return png_output.getvalue()
+        p1_name = p1['name']
+        p2_name = p2['name']
+        if len(p1_name) > 20:
+            p1_name = p1_name[:20] + '...'
+        if len(p2_name) > 20:
+            p2_name = p2_name[:20] + '...'
+            
+        plt.legend([l, l2], [p1_name, p2_name], loc='upper center', bbox_to_anchor=(0.5, -0.05),
+        fancybox=True, shadow=True, ncol=5)
+        
+        buf = io.BytesIO()
+        plt.savefig(buf, format='png')
+        buf.seek(0)
+        
+        #canvas=FigureCanvas(fig)
+        #png_output = io.BytesIO()
+        #canvas.print_png(png_output)
+        #return png_output.getvalue()
+        
+        plt.savefig('foo.png', bbox_inches='tight')
+        return buf.getvalue()
     
     "******************************************* Debug propuse *******************************************"
     

@@ -36,13 +36,17 @@ def getingredients(code):
     except QuerryError as err:
         return jsonify(data=[])
 
-@app.route("/comparaison/")
-def comparaison():
-    res = RequestOpenFood.get_product(barcode='7610235000329')
-    res = ProductBuilder.clean_data(res)
-    res2 = RequestOpenFood.get_product(barcode='7613033774188')
-    res2 = ProductBuilder.clean_data(res2)
-    return RequestOpenFood.compare_data(res[0], res2[0])
+@app.route("/comparaison/<string:code>")
+def comparaison(code):
+    try:
+        tags = code.split('-')
+        res = RequestOpenFood.get_product(barcode=tags[0])
+        res = ProductBuilder.clean_data(res)
+        res2 = RequestOpenFood.get_product(barcode=tags[1])
+        res2 = ProductBuilder.clean_data(res2)
+        return RequestOpenFood.compare_data(res[0], res2[0])
+    except QuerryError as err:
+        return jsonify(data=[])
 
 @app.route("/getbarcode/<string:code>")
 def get_barcode(code):
