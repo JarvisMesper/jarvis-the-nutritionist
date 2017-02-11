@@ -174,7 +174,7 @@ class RequestOpenFood:
             for in_nutrient in in_nutrients:
                 try:
                     nut_fr = in_nutrient['name_fr']
-                    if name in nut_fr:
+                    if name.lower() in nut_fr.lower():
                         return True
                 except KeyError:
                     pass
