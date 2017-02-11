@@ -194,6 +194,8 @@ class RequestOpenFood:
                 dict_comp[key['name']] = [0, float(val)]
                 dict_comp_tag[key['name']] = ['-', val]
 
+        print(dict_comp_tag)
+        print(dict_comp)
         # Plot according to dictionary
         val_p1 = []; val_p2 = []
         val_tag = []
@@ -203,9 +205,11 @@ class RequestOpenFood:
         for key in dict_comp.keys():
             val_p2.append(dict_comp[key][1])
             val_tag.append(dict_comp_tag[key][1])
-        val_p1 = np.array(val_p1)/np.max([val_p1, val_p2])
-        val_p2 = np.array(val_p2)/np.max([val_p1, val_p2])
-
+        val_p1 = np.array(val_p1); val_p2 = np.array(val_p2); 
+        max_val = np.max([val_p1, val_p2])
+        val_p1 = val_p1/max_val
+        val_p2 = val_p2/max_val
+        
         fig=plt.figure()
         ax=fig.add_subplot(111)
         l = ax.barh(range(len(val_p1)), -val_p1, align='center', color='red')
@@ -214,7 +218,7 @@ class RequestOpenFood:
         plt.axis('off')
 
         unit_data = RequestOpenFood.get_nutrient(dict_comp_tag)
-        # print(unit_data)
+        print(unit_data)
 
         rects = ax.patches
         for i, (rect, label) in enumerate(zip(rects, val_tag)):
