@@ -36,7 +36,7 @@ def getingredients(code):
         return jsonify(data=[])
 
 @app.route("/getimage/<string:code>")
-def get_image():
+def get_image(code):
     print("Getting image")
     fig=plt.figure()
     ax=fig.add_subplot(111)
