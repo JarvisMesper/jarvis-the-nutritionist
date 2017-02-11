@@ -194,8 +194,6 @@ class RequestOpenFood:
                 dict_comp[key['name']] = [0, float(val)]
                 dict_comp_tag[key['name']] = ['-', val]
 
-        print(dict_comp_tag)
-        print(dict_comp)
         # Plot according to dictionary
         val_p1 = []; val_p2 = []
         val_tag = []
@@ -218,7 +216,6 @@ class RequestOpenFood:
         plt.axis('off')
 
         unit_data = RequestOpenFood.get_nutrient(dict_comp_tag)
-        print(unit_data)
 
         rects = ax.patches
         for i, (rect, label) in enumerate(zip(rects, val_tag)):
