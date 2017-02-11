@@ -48,6 +48,7 @@ def get_image():
 
 @app.route("/getbarcode/<string:code>")
 def get_barcode(code):
+    print("Getting barcode" + code)
     try:
         res = RequestOpenFood.get_product(barcode=code)
         res = ProductBuilder.clean_data(res)
@@ -56,5 +57,5 @@ def get_barcode(code):
         return jsonify(data=[])
  
 if __name__ == "__main__":
-    app.run()
+    app.run(host='0.0.0.0')
 
