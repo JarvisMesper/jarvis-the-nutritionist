@@ -64,7 +64,6 @@ class RequestOpenFood:
         }
         # Rend request
         r = requests.post(RequestOpenFood.URL_SEARCH, json=query, headers=RequestOpenFood.HEADERS)
-        print(r)
         res = RequestOpenFood.check_data(r)
          
         return res
@@ -102,7 +101,7 @@ class RequestOpenFood:
         r = requests.post(RequestOpenFood.URL_SEARCH, json=query, headers=RequestOpenFood.HEADERS)
         res = RequestOpenFood.check_data(r)
         
-        return res[0]
+        return res
     
     "******************************************* Extract product info *******************************************"
     @staticmethod
@@ -129,6 +128,92 @@ class RequestOpenFood:
             pass
          
         return False
+    
+    "******************************************* Debug propuse *******************************************"
+    
+    @staticmethod
+    def display_product_names(res):
+        """
+        Display product array or single product name
+        """
+        if isinstance(res, list):
+            for i, product in enumerate(res):
+                name = ProductBuilder.get_valid_name(product)
+                print('\t'+str(i+1)+'.', name)
+        else:
+            name = ProductBuilder.get_valid_name(res)
+            print('\t'+str(1)+'.', name)
+
+import json
+
+class ProductBuilder:
+    
+    def __init__(self, product):
+        self.name = ''
+        self.images = []
+        # Get name
+        try:
+            self.name = ProductBuilder.get_valid_name(product)
+        except QuerryError as err:
+            self.name = 'None'
+            print(err.message)
+        # Get images
+        try:
+            self.images = ProductBuilder.get_valid_image(product)
+        except QuerryError as err:
+            print(err.message)
+        # Get barcode
+        self.barcode = ProductBuilder.get_valid_barcode(product)
+        # Get composition
+        self.nutrients = ProductBuilder.get_valid_nutrient(product)
+        self.raw = product
+        
+    def get_json(self):
+        res_dict = {}
+        res_dict['name'] = self.name
+        res_dict['barcode'] = self.barcode
+        res_dict['images'] = self.images
+        res_dict['nutrients'] = self.nutrients
+        return json.dumps(res_dict)
+    
+    @staticmethod
+    def clean_data(res_tab):
+        res = []
+        for i, product in enumerate(res_tab):
+            product_build = ProductBuilder(product)
+            res.append(product_build.get_json()) 
+        return res
+    
+    @staticmethod
+    def get_valid_nutrient(product):
+        """
+        Get valid nutrient
+        """
+        nutrient_tab = [];
+        try:
+            nutirents = product['_source']['nutrients']
+            for nutirent in nutirents:
+                try:
+                    name = nutirent['name_fr']
+                    per_hundred = nutirent['per_hundred']
+                    nutrient_tab.append({'name':name, 'per_hundred': per_hundred})
+                except:
+                    pass
+        except KeyError:
+            pass
+        
+        return nutrient_tab
+        
+    @staticmethod
+    def get_valid_barcode(product):
+        """
+        Get valid barcode of product
+        """
+        try:
+            return product['_source']['barcode']
+        except KeyError:
+            pass
+        return '0'
     
     @staticmethod
     def get_valid_name(product):
@@ -170,18 +255,3 @@ class RequestOpenFood:
         
         return img_valid_url
     
-    "******************************************* Debug propuse *******************************************"
-    
-    @staticmethod
-    def display_product_names(res):
-        """
-        Display product array or single product name
-        """
-        if isinstance(res, list):
-            for i, product in enumerate(res):
-                name = RequestOpenFood.get_valid_name(product)
-                print('\t'+str(i+1)+'.', name)
-        else:
-            name = RequestOpenFood.get_valid_name(res)
-            print('\t'+str(1)+'.', name)
-
