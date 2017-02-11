@@ -16,7 +16,7 @@ The chatbot is built with the [Microsoft Bot Framework](https://dev.botframework
 
 Jarvis is able to understand basic questions like "Who are you?", both in french and english. He can retrieve product information when the user send him a picture of the barcode using [quaggaJS](https://serratus.github.io/quaggaJS/) library for the scan.
 
-He also remembers the product scan, and let you compare products together.
+He also remembers the last scanned products, and let you compare products together.
 
 
 ## Context
