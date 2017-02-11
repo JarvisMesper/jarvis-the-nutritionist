@@ -2,6 +2,10 @@ from flask import Flask, jsonify
 from RequestOpenFood import RequestOpenFood
 from RequestOpenFood import QuerryError
 from RequestOpenFood import ProductBuilder
+import matplotlib
+import matplotlib.pyplot as plt
+from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
+import io
 
 app = Flask(__name__)
 
