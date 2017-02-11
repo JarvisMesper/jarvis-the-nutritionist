@@ -58,7 +58,7 @@ def get_barcode(code):
 def get_contains(code):
     print("Getting containing" + code)
     try:
-        product = code.split("-")[0]
+        product = int(code.split("-")[0])
         ingredient = code.split("-")[1]
         res = RequestOpenFood.is_containing_ingredient(product, ingredient)
         return jsonify(data=res)
