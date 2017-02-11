@@ -12,7 +12,11 @@ The bot itself is in this repo : [https://github.com/JarvisMesper/jarvis-the-bot
 
 ## Technologies
 
-The chatbot is built with the [Bot Framework](https://dev.botframework.com) in NodeJS. It uses [LUIS (Language Understanding Intelligent Service)](https://www.luis.ai) to process and understand what the user is asking him. The bot talks to an API made with [Flask](http://flask.pocoo.org) in Python. This API retreive data from [OpenFood](https://www.openfood.ch). All of this is hosted on Azure for the demo.
+The chatbot is built with the [Microsoft Bot Framework](https://dev.botframework.com) in NodeJS. It uses [LUIS (Language Understanding Intelligent Service)](https://www.luis.ai) to process and understand what the user is asking him. The bot talks to an API made with [Flask](http://flask.pocoo.org) in Python and hosted on an Ubuntu virtual machine. This API retreive data from [OpenFood](https://www.openfood.ch). All of this is hosted on Azure Bot Service for the demo.
+
+Jarvis is able to understand basic questions like "Who are you?", both in french and english. He can retrieve product information when the user send him a picture of the barcode using [quaggaJS](https://serratus.github.io/quaggaJS/) library for the scan.
+
+He also remembers the product scan, and let you compare products together.
 
 
 ## Context
