@@ -7,10 +7,12 @@ app = Flask(__name__)
 
 @app.route("/")
 def hello():
+    print("Hello World!")
     return "Hello World!"
 
 @app.route("/getnames/<string:code>")
 def getnames(code):
+    print("Getting name from code")
     try:
         tags = code.split('-')
         res = RequestOpenFood.search_name(id_from=0, id_size=5, name=tags)
@@ -18,9 +20,10 @@ def getnames(code):
         return jsonify(data=res)
     except QuerryError as err:
         return jsonify(data=[])
-    
+
 @app.route("/getingredients/<string:code>")
 def getingredients(code):
+    print("Getting ingredients")
     try:
         tags = code.split('-')
         res = RequestOpenFood.search_ingredient(id_from=0, id_size=5, name=tags)
