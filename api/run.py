@@ -59,7 +59,7 @@ def get_contains(code):
     print("Getting containing" + code)
     try:
         product = code.split("-")[0]
-        name = code.split("-")[1]
+        ingredient = code.split("-")[1]
         res = RequestOpenFood.is_containing_ingredient(product, ingredient)
         return jsonify(data=res)
     except QuerryError as err:
