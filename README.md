@@ -2,6 +2,12 @@
 
 Jarvis is here to help you for your groceries, food questions and so on ! He's smart, kind and neutral, he won't judge you :)
 
+You have two ways of contacting him for the moment. Don't hesitate to drop him a line :
+
+- on Telegram : [@JarvisTheNutritionistBot](http://t.me/JarvisTheNutritionistBot)
+- on Facebook : [Jarvis-le-Nutritionniste](https://www.facebook.com/Jarvis-le-Nutritionniste-1868216750130500)
+
+Jarvis understands French and English but will answer you in French.
 
 ## Structure
 
@@ -26,7 +32,7 @@ This project was made during the [Open Food Hackdays](https://food.opendata.ch) 
 
 ## Contributors
 
-[1]: http://i.imgur.com/wWzX9uB.png
+[1]: https://i.imgur.com/wWzX9uB.png
 [2]: https://twitter.com/jackycasas_
 [3]: https://twitter.com/nathan_quint
 
@@ -35,4 +41,4 @@ This project was made during the [Open Food Hackdays](https://food.opendata.ch) 
 - [Christian Abbet](https://github.com/christlf)
 
 
-![jarvis the nutritionist icon](statics/bot-icon-squared-400.png)
+![jarvis the nutritionist icon](https://raw.githubusercontent.com/JarvisMesper/jarvis-the-nutritionist/master/statics/bot-icon-squared-400.png)
