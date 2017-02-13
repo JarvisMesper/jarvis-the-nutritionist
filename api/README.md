@@ -19,6 +19,10 @@ Install dependencies
 	pip install --upgrade pip
 	pip install -r requirements.txt
 
+If your system says `_tkinter` is missing, you have to install it manually. For example on Ubuntu, simply type :
+
+	sudo apt-get install python3-tk
+
 
 ## Usage
 
@@ -29,4 +33,3 @@ To launch the API
 To exit the virtual environment
 
 	deactivate
-
