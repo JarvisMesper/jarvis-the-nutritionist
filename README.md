@@ -9,6 +9,8 @@ You have two ways of contacting him for the moment. Don't hesitate to drop him a
 
 Jarvis understands French and English but will answer you in French.
 
+NB: Jarvis is not online anymore.
+
 ## Structure
 
 This repo contains some tests about APIs calls and techs. The main thing here is in the `api/` folder where you can find the webservices used by the chatbot to interact with the OpenFood API.
@@ -28,6 +30,10 @@ He also remembers the last scanned products, and let you compare products togeth
 ## Context
 
 This project was made during the [Open Food Hackdays](https://food.opendata.ch) (10/11 February 2017) oragnized by [OpenData.ch](https://opendata.ch) @ EPFL.
+
+The following developments of the chatbot are not on the repo. Follow us on Twitter to get notified.
+
+A report containing the state of the project in October 2017 is available [here](https://github.com/JarvisMesper/jarvis-the-nutritionist/blob/master/open-data-report.pdf).
 
 
 ## Contributors
